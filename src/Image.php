@@ -306,9 +306,11 @@ class Image
      */
     public function curl(string $url, array $curlOptions = [], bool $failOnError = false): Image
     {
+        $request_scheme = isset($_SERVER["REQUEST_SCHEME"]) ? $_SERVER["REQUEST_SCHEME"] : 'HTTPS';
+
         $defaultCurlOptions = [
             CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0',
-            CURLOPT_REFERER => \strtolower($_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]),
+            CURLOPT_REFERER => \strtolower($request_scheme . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]),
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_TIMEOUT => 5,
         ];
@@ -618,14 +620,14 @@ class Image
     {
         $stringColor = \trim(\str_replace('#', '', $stringColor));
         switch (\mb_strlen($stringColor)) {
-            case 3 :
+            case 3:
                 $r = \substr($stringColor, 0, 1);
                 $g = \substr($stringColor, 1, 1);
                 $b = \substr($stringColor, 2, 1);
                 return $r . $r . $g . $g . $b . $b . '00';
-            case 6 :
+            case 6:
                 return $stringColor . '00';
-            case 8 :
+            case 8:
                 return $stringColor;
             default:
                 return '00000000';
@@ -890,24 +892,24 @@ class Image
             $sizeHeight = $yMax - $yMin;
 
             switch ($anchorX) {
-                case static::ALIGN_LEFT :
+                case static::ALIGN_LEFT:
                     $posX = $posX - $xMin;
                     break;
-                case static::ALIGN_CENTER :
+                case static::ALIGN_CENTER:
                     $posX = $posX - $sizeWidth / 2 - $xMin;
                     break;
-                case static::ALIGN_RIGHT :
+                case static::ALIGN_RIGHT:
                     $posX = $posX - $sizeWidth - $xMin;
                     break;
             }
             switch ($anchorY) {
-                case static::ALIGN_TOP :
+                case static::ALIGN_TOP:
                     $posY = $posY - $yMin;
                     break;
-                case static::ALIGN_MIDDLE :
+                case static::ALIGN_MIDDLE:
                     $posY = $posY - $sizeHeight / 2 - $yMin;
                     break;
-                case static::ALIGN_BOTTOM :
+                case static::ALIGN_BOTTOM:
                     $posY = $posY - $sizeHeight - $yMin;
                     break;
             }
@@ -1193,23 +1195,23 @@ class Image
         }
 
         switch ($anchorX) {
-            case static::ALIGN_LEFT :
+            case static::ALIGN_LEFT:
                 $posX = \round($posX + $diameter / 2);
                 break;
-            case static::ALIGN_CENTER :
+            case static::ALIGN_CENTER:
                 break;
-            case static::ALIGN_RIGHT :
+            case static::ALIGN_RIGHT:
                 $posX = \round($posX - $diameter / 2);
                 break;
         }
 
         switch ($anchorY) {
-            case static::ALIGN_TOP :
+            case static::ALIGN_TOP:
                 $posY = \round($posY + $diameter / 2);
                 break;
-            case static::ALIGN_MIDDLE :
+            case static::ALIGN_MIDDLE:
                 break;
-            case static::ALIGN_BOTTOM :
+            case static::ALIGN_BOTTOM:
                 $posY = \round($posY - $diameter / 2);
                 break;
         }
