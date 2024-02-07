@@ -1250,6 +1250,7 @@ class Image
         if (!$this->isImageDefined()) {
             return false;
         }
+        \imageinterlace($this->image, 0);
         return \imagejpeg($this->image, $path, $quality);
     }
 
@@ -1285,6 +1286,7 @@ class Image
     public function displayJPG(int $quality = -1)
     {
         if ($this->isImageDefined()) {
+            \imageinterlace($this->image, 0);
             \imagejpeg($this->image, null, $quality);
         }
     }
